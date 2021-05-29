@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 
@@ -7,4 +7,5 @@ urlpatterns = [
     path('topic/<int:pk>/', views.TopicDetailView.as_view(), name='topic-details'),
     path('topic/<int:pk>/add-post', views.PostCreateView.as_view(), name='add-post'),
     path('topic/<int:topic>/post/<int:pk>/delete', views.PostDeleteView.as_view(), name='delete-post'),
+    path('google/', include('social_django.urls', namespace='social'))
 ]

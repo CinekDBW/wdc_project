@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-^tnfl$bgo__bh1lt7xbsb_%g(updz-c39$)5lc)&9vzl@btq-(
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '25.44.220.160'
+    '25.44.220.160',
+    '127.0.0.1'
 ]
 
 
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -133,3 +135,15 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'forum-home'
 LOGIN_URL = 'login'
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '717629943287-j6p058r1ihdmcitv0tqk1av6nv0of8a0.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'OYQ-gvgHzjdkXTIV-p_IQs4D'
+
+LOGIN_URL = '/auth/login/google-oauth2/'
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
