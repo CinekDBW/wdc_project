@@ -1,0 +1,28 @@
+{% extends "forum/base.html" %}
+{% block content %}
+<article class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata">
+            <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+            <h1 class="mr-2">{{ object.title }}</h1>
+        </div>
+    </div>
+</article>
+{% for post in object.posts_from_topic.all %}
+<article class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata">
+            <small class="text-muted">{{ post.date_posted }}</small>
+            <b><h7 class="text-muted">{{ post.author }}:</h7></b>
+        </div>
+        <div class="article-content">
+            <p class="text-muted">{{ post.content }}</p>
+        </div>
+        {% if post.author == user or perms.forum.can_delete_every_post %}
+        <a class="btn btn-outline-secondary" href="{% url 'delete-post' object.id post.id %}">DELETE</a>
+        {% endif %}
+    </div>
+</article>
+{% endfor %}
+<a class="btn btn-outline-info" href="{% url 'add-post' object.id %}">DODAJ POSTA ZIOM</a>
+{% endblock content %}

@@ -1,0 +1,28 @@
+{% extends "forum/base.html" %}
+{% block content %}
+{% if user.is_authenticated %}
+{% for topic in public_topics %}
+<article class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata">
+            <small class="text-muted">{{ topic.date_posted|date:"F d, Y" }}</small>
+        </div>
+        <h2><a class="article-title" href="{% url 'topic-details' topic.id %}">{{ topic.title }}</a></h2>
+    </div>
+</article>
+{% endfor %}
+
+{% if perms.forum.can_view_private_topics %}
+{% for topic in private_topics %}
+<article class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata">
+            <small class="text-muted">{{ topic.date_posted|date:"F d, Y" }}</small>
+        </div>
+        <h2><a class="article-title" href="{% url 'topic-details' topic.id %}">{{ topic.title }}</a></h2>
+    </div>
+</article>
+{% endfor %}
+{% endif %}
+{% endif %}
+{% endblock content %}
