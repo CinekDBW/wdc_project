@@ -5,7 +5,10 @@
         <div class="article-metadata">
             <small class="text-muted">{{ object.date_posted|date:"F d, Y" }} | </small>
             <small class="text-xs-right"><b>{{ object.author }}</b></small>
-            <h1 class="mr-2">{{ object.title }}</h1>
+            <h1 class="mr-2">{% if object.is_public %} 📢 {% else %} 🔒  {% endif %}{{ object.title }}</h1>
+            {% if not topic.is_public %}
+            <small>{% for allowed in topic.allowed_users.all %} {{allowed.username}} {% endfor %}</small>
+        {% endif %}
         </div>
     </div>
 </article>

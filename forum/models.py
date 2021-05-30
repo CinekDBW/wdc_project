@@ -11,7 +11,8 @@ class Topic(models.Model):
         permissions = (
             ("can_verify_topics", "Can verify topics"),
             ("can_view_all_topics", "Can view all topics"),
-                       )
+            ("can_add_topics", "Can add topics"),
+        )
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=400)
     date_posted = models.DateTimeField(default=timezone.now)
@@ -31,7 +32,11 @@ class Topic(models.Model):
 
 class Post(models.Model):
     class Meta:
-        permissions = (("can_delete_every_post", "Can delete every post"),)
+        permissions = (
+            ("can_delete_every_post", "Can delete every post"),
+            ("can_delete_own_post", "Can delete own post"),
+            ("can_add_posts", "Can add posts"),
+        )
 
     content = models.TextField()
     date_posted = models.DateTimeField(default=timezone.now)

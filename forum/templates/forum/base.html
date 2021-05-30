@@ -68,12 +68,21 @@
         <div class="col-md-4">
             <div class="content-section">
                 {% if user.is_authenticated %}
-                <h3>Logged in: {{ user.username }}</h3>
-                <p class='text-muted'>Your permissions:
+                <h3>Logged in as {{ user.username }}</h3>
+                <p class='text-muted'>Your Group:
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-light">{{ user.groups.all.0 }}</li>
+                </ul>
+                </p>
+                <p class='text-muted'>Your Permissions:
                 <ul class="list-group">
                     <li class="list-group-item list-group-item-light">Superuser {% if user.is_superuser %} ✔️ {% else %} ❌ {% endif %}</li>
                     <li class="list-group-item list-group-item-light">Can delete every post {% if perms.forum.can_delete_every_post %} ✔️ {% else %} ❌ {% endif %}</li>
-
+                    <li class="list-group-item list-group-item-light">Can verify topics {% if perms.forum.can_verify_topics %} ✔️ {% else %} ❌ {% endif %}</li>
+                    <li class="list-group-item list-group-item-light">Can view all topics {% if perms.forum.can_view_all_topics %} ✔️ {% else %} ❌ {% endif %}</li>
+                    <li class="list-group-item list-group-item-light">Can add topic {% if perms.forum.can_add_topics %} ✔️ {% else %} ❌ {% endif %}</li>
+                    <li class="list-group-item list-group-item-light">Can add post {% if perms.forum.can_add_posts %} ✔️ {% else %} ❌ {% endif %}</li>
+                    <li class="list-group-item list-group-item-light">Can delete own post {% if perms.forum.can_delete_own_post %} ✔️ {% else %} ❌ {% endif %}</li>
                 </ul>
                 </p>
                 {% else %}

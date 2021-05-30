@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from wdc import secret
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -141,9 +143,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '717629943287-j6p058r1ihdmcitv0tqk1av6nv0of8a0.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'OYQ-gvgHzjdkXTIV-p_IQs4D'
-
-LOGIN_URL = '/auth/login/google-oauth2/'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = secret.KEY
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = secret.SECRET
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
