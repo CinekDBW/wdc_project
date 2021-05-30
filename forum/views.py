@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from .models import Topic, Post
 from django.views.generic import (
@@ -11,10 +12,17 @@ from django.views.generic import (
 
 def home(request):
     context = {
-        'public_topics': Topic.objects.filter(is_public=True),
-        'private_topics': Topic.objects.filter(is_public=False)
+        'topics': Topic.objects.filter(is_public=True, is_verified=True),
     }
     return render(request, 'forum/home.html', context)
+
+
+def private_topics(request):
+    context = {
+        'topics': Topic.objects.filter(is_public=False, is_verified=True),
+    }
+    return render(request, 'forum/topic_private.html', context)
+
 
 
 class TopicDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -22,9 +30,27 @@ class TopicDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
     def test_func(self):
         topic = self.get_object()
-        if topic.is_public or self.request.user.has_perm('forum.can_view_private_topics'):
+        if topic.is_public or self.request.user == topic.author or self.request.user in topic.allowed_users.all() or self.request.user.has_perm('forum.can_view_all_topics'):
             return True
         return False
+
+
+class TopicCreateView(LoginRequiredMixin, CreateView):
+    model = Topic
+    fields = ['title', 'is_public', 'allowed_users']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+def topicVerifyView(request):
+
+    context = {
+        'topics': Topic.objects.filter(is_verified=False)
+    }
+    return render(request, 'forum/topic_verify.html', context)
+
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):

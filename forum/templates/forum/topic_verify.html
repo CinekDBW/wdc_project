@@ -8,6 +8,8 @@
             <small class="text-muted">{{ topic.date_posted|date:"F d, Y" }}</small>
         </div>
         <h2><a class="article-title" href="{% url 'topic-details' topic.id %}">{{ topic.title }}</a></h2>
+        <a class="btn btn-outline-secondary" >Verify</a>
+        <a class="btn btn-outline-secondary" >Decline</a>
     </div>
 </article>
 {% endfor %}

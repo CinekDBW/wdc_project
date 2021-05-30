@@ -2,6 +2,7 @@
 {% block content %}
 {% if user.is_authenticated %}
 {% for topic in topics %}
+{% if topic.author == user or user in topic.allowed_users.all or perms.forum.can_view_all_topics%}
 <article class="media content-section">
     <div class="media-body">
         <div class="article-metadata">
@@ -10,6 +11,7 @@
         <h2><a class="article-title" href="{% url 'topic-details' topic.id %}">{{ topic.title }}</a></h2>
     </div>
 </article>
+{% endif %}
 {% endfor %}
 {% endif %}
 {% endblock content %}

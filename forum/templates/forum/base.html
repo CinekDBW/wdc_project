@@ -31,6 +31,11 @@
             <div class="collapse navbar-collapse" id="navbarToggle">
                 <div class="navbar-nav mr-auto">
                     <a class="nav-item nav-link" href="{% url 'forum-home' %}">Home</a>
+                    <a class="nav-item nav-link" href="{% url 'add-topic' %}">Add topic</a>
+                    <a class="nav-item nav-link" href="{% url 'private-topics' %}">Private Topics</a>
+                    {% if perms.forum.can_verify_topics %}
+                    <a class="nav-item nav-link" href="{% url 'verify-topics' %}">Verify</a>
+                    {% endif %}
                 </div>
                 <!-- Navbar Right Side -->
                 <div class="navbar-nav">
@@ -65,7 +70,6 @@
                 <p class='text-muted'>Your permissions:
                 <ul class="list-group">
                     <li class="list-group-item list-group-item-light">Superuser {% if user.is_superuser %} ✔️ {% else %} ❌ {% endif %}</li>
-                    <li class="list-group-item list-group-item-light">Can view private topics {% if perms.forum.can_view_private_topics %} ✔️ {% else %} ❌ {% endif %}</li>
                     <li class="list-group-item list-group-item-light">Can delete every post {% if perms.forum.can_delete_every_post %} ✔️ {% else %} ❌ {% endif %}</li>
 
                 </ul>
