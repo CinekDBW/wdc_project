@@ -31,10 +31,12 @@
             <div class="collapse navbar-collapse" id="navbarToggle">
                 <div class="navbar-nav mr-auto">
                     <a class="nav-item nav-link" href="{% url 'forum-home' %}">Home</a>
-                    <a class="nav-item nav-link" href="{% url 'add-topic' %}">Add topic</a>
+                    {% if user.is_authenticated %}
                     <a class="nav-item nav-link" href="{% url 'private-topics' %}">Private Topics</a>
+                    <a class="nav-item nav-link" href="{% url 'add-topic' %}">Add topic</a>
                     {% if perms.forum.can_verify_topics %}
                     <a class="nav-item nav-link" href="{% url 'verify-topics' %}">Verify</a>
+                    {% endif %}
                     {% endif %}
                 </div>
                 <!-- Navbar Right Side -->
@@ -42,7 +44,7 @@
                     {% if user.is_authenticated %}
                     <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
                     {% else %}
-                    <a class="btn btn-primary" href="{% url 'social:begin' 'google-oauth2' %}">
+
                     <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
                     <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
                     {% endif %}

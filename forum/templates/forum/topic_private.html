@@ -6,7 +6,8 @@
 <article class="media content-section">
     <div class="media-body">
         <div class="article-metadata">
-            <small class="text-muted">{{ topic.date_posted|date:"F d, Y" }}</small>
+            <small class="text-muted">{{ topic.date_posted|date:"F d, Y" }} | </small>
+            <small class="text-xs-right"><b>{{ topic.author }}</b></small>
         </div>
         <h2><a class="article-title" href="{% url 'topic-details' topic.id %}">{{ topic.title }}</a></h2>
     </div>

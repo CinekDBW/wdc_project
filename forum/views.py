@@ -1,6 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.shortcuts import render
+from django.urls import reverse
+
 from .models import Topic, Post
 from django.views.generic import (
     DetailView,
@@ -24,7 +26,6 @@ def private_topics(request):
     return render(request, 'forum/topic_private.html', context)
 
 
-
 class TopicDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Topic
 
@@ -44,13 +45,41 @@ class TopicCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
+class TopicDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Topic
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user.has_perm('forum.can_verify_topics'):
+            return True
+        return
+
+    def get_success_url(self):
+        return reverse('verify-topics')
+
+
+class TopicConfirmView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Topic
+    fields = ['is_verified']
+    template_name_suffix = '_confirm_form'
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user.has_perm('forum.can_verify_topics'):
+            return True
+        return
+
+    def get_success_url(self):
+        return reverse('verify-topics')
+
+
+
 def topicVerifyView(request):
 
     context = {
         'topics': Topic.objects.filter(is_verified=False)
     }
     return render(request, 'forum/topic_verify.html', context)
-
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):

@@ -3,7 +3,8 @@
 <article class="media content-section">
     <div class="media-body">
         <div class="article-metadata">
-            <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+            <small class="text-muted">{{ object.date_posted|date:"F d, Y" }} | </small>
+            <small class="text-xs-right"><b>{{ object.author }}</b></small>
             <h1 class="mr-2">{{ object.title }}</h1>
         </div>
     </div>
@@ -19,10 +20,10 @@
             <p class="text-muted">{{ post.content }}</p>
         </div>
         {% if post.author == user or perms.forum.can_delete_every_post %}
-        <a class="btn btn-outline-secondary" href="{% url 'delete-post' object.id post.id %}">DELETE</a>
+        <a class="btn btn-outline-danger" href="{% url 'delete-post' object.id post.id %}">DELETE</a>
         {% endif %}
     </div>
 </article>
 {% endfor %}
-<a class="btn btn-outline-info" href="{% url 'add-post' object.id %}">DODAJ POSTA ZIOM</a>
+<a class="btn btn-outline-info" href="{% url 'add-post' object.id %}">Comment</a>
 {% endblock content %}
